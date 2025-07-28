@@ -127,9 +127,31 @@
     button.clear-cart:hover {
       background: #ff0000;
     }
+    /* 프로필 아이콘 스타일 */
+    #profile-icon {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      background: #0077ff;
+      color: white;
+      font-weight: bold;
+      font-size: 28px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 0 5px rgba(0,0,0,0.3);
+      z-index: 10000;
+    }
   </style>
 </head>
 <body>
+  <!-- 프로필 아이콘 -->
+  <div id="profile-icon" title="계정" onclick="openProfileModal()">?</div>
+
   <div class="outer-container">
     <div class="container">
       <h1>해피니스 게시판</h1>
@@ -143,7 +165,7 @@
       </div>
 
       <div class="link-item">
-        <a href="#" onclick="openBandageModal(); return false;">붕대 &lt;&lt;</a>
+        <a href="#" onclick="alert('저것 클릭!'); return false;">(세일!) 저것 &lt;&lt;</a>
       </div>
 
       <div class="link-item">
@@ -185,33 +207,22 @@
           <li>믿을 수 있는 품질</li>
           <li>특별 할인 중!</li>
         </ul>
-        <a href="#" class="cart-link" onclick="addToCart('회복! 상품', 5); return false;">- 장바구니에 추가 -</a>
+        <a href="#" class="cart-link" onclick="addToCart(); return false;">- 장바구니에 추가 -</a>
       `;
     }
 
-    function openBandageModal() {
-      openOverlay();
-      document.getElementById('modal-content').innerHTML = `
-        <h2>붕대 상세 페이지</h2>
-        <p>가격 | 3 재화</p>
-        <p>상품 특징:</p>
-        <ul>
-          <li>상처 치료에 필수</li>
-          <li>튼튼하고 편안함</li>
-          <li>합리적인 가격</li>
-        </ul>
-        <a href="#" class="cart-link" onclick="addToCart('붕대', 3); return false;">- 장바구니에 추가 -</a>
-      `;
-    }
-
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      alert(`"${name}"이(가) 장바구니에 추가되었습니다!`);
+    function addToCart() {
+      // 회복! 상품을 장바구니에 추가
+      cart.push({
+        name: '회복! 상품',
+        price: 5
+      });
+      alert('장바구니에 추가되었습니다!');
     }
 
     function openCartModal() {
       openOverlay();
-      if (cart.length === 0) {
+      if(cart.length === 0) {
         document.getElementById('modal-content').innerHTML = `
           <h2>장바구니</h2>
           <p>장바구니가 비어 있습니다.</p>
@@ -221,16 +232,29 @@
       let listItems = cart.map((item, index) => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
       document.getElementById('modal-content').innerHTML = `
         <h2>장바구니</h2>
-        <ul class="cart-list">${listItems}</ul>
+        <ul class="cart-list">
+          ${listItems}
+        </ul>
         <button class="clear-cart" onclick="clearCart()">장바구니 비우기</button>
       `;
     }
 
     function clearCart() {
-      if (confirm('장바구니를 비우시겠습니까?')) {
+      if(confirm('장바구니를 비우시겠습니까?')) {
         cart = [];
         openCartModal();
       }
+    }
+
+    // 프로필 아이콘 클릭 시 모달 열기
+    function openProfileModal() {
+      openOverlay();
+      document.getElementById('modal-content').innerHTML = `
+        <h2>계정 메뉴</h2>
+        <a href="#" style="color:#0000ff; text-decoration: underline; font-weight: bold;" onclick="alert('잔액: 120 재화'); closeOverlay(); return false;">
+          ㅡ 카드 잔액 확인 ㅡ
+        </a>
+      `;
     }
   </script>
 </body>
