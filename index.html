@@ -49,7 +49,6 @@
       margin: 12px 0;
       font-size: 20px;
     }
-    /* 오버레이 스타일 */
     #overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -127,7 +126,6 @@
     button.clear-cart:hover {
       background: #ff0000;
     }
-    /* 프로필 아이콘 스타일 */
     #profile-icon {
       position: fixed;
       top: 15px;
@@ -149,7 +147,6 @@
   </style>
 </head>
 <body>
-  <!-- 프로필 아이콘 -->
   <div id="profile-icon" title="계정" onclick="openProfileModal()">?</div>
 
   <div class="outer-container">
@@ -165,7 +162,7 @@
       </div>
 
       <div class="link-item">
-        <a href="#" onclick="alert('저것 클릭!'); return false;">(세일!) 저것 &lt;&lt;</a>
+        <a href="#" onclick="openKnifeModal(); return false;">(세일!) 나이프! &lt;&lt;</a>
       </div>
 
       <div class="link-item">
@@ -174,7 +171,6 @@
     </div>
   </div>
 
-  <!-- 오버레이 모달 -->
   <div id="overlay">
     <div id="modal">
       <button class="close-btn" onclick="closeOverlay()">닫기 ×</button>
@@ -207,16 +203,22 @@
           <li>믿을 수 있는 품질</li>
           <li>특별 할인 중!</li>
         </ul>
-        <a href="#" class="cart-link" onclick="addToCart(); return false;">- 장바구니에 추가 -</a>
+        <a href="#" class="cart-link" onclick="addToCart('회복! 붕대', 5); return false;">- 장바구니에 추가 -</a>
       `;
     }
 
-    function addToCart() {
-      // 붕대를 장바구니에 추가
-      cart.push({
-        name: '회복! 붕대',
-        price: 5
-      });
+    function openKnifeModal() {
+      openOverlay();
+      document.getElementById('modal-content').innerHTML = `
+        <h2>(세일!) 나이프! 상세</h2>
+        <p>가격 | 7 재화</p>
+        <p>표면은 날카롭고, 용도는 의심스러움.</p>
+        <a href="#" class="cart-link" onclick="addToCart('나이프', 7); return false;">- 장바구니에 추가 -</a>
+      `;
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
       alert('장바구니에 추가되었습니다!');
     }
 
@@ -246,7 +248,6 @@
       }
     }
 
-    // 프로필 아이콘 클릭 시 모달 열기
     function openProfileModal() {
       openOverlay();
       document.getElementById('modal-content').innerHTML = `
