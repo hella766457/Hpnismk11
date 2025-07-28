@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>해피니스 게시판</title>
+  <style>
+    body {
+      background: #a0c4ff;
+      padding: 40px 20px;
+      font-family: 'Gulim', Gulim, 'Dotum', Dotum, Arial, sans-serif;
+      user-select: none;
+      margin: 0;
+    }
+    .outer-container {
+      max-width: 520px;
+      margin: 0 auto;
+      background: #003080;
+      padding: 30px;
+      box-shadow: 5px 5px 0 #002060;
+      border-radius: 4px;
+    }
+    .container {
+      background: #fffcdc;
+      padding: 25px 30px;
+      border: 3px solid #000080;
+      box-shadow: 3px 3px 0 #d0d0d0;
+      min-height: 200px;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 30px;
+      text-shadow: 1px 1px 0 #d0d0d0;
+      letter-spacing: 3px;
+      color: #000080;
+    }
+    a {
+      color: #0000ff;
+      text-decoration: underline;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    a:hover {
+      color: #ff0000;
+    }
+    .link-item {
+      margin: 12px 0;
+      font-size: 20px;
+    }
+    /* 오버레이 스타일 */
+    #overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    #modal {
+      background: #fffcdc;
+      border: 3px solid #000080;
+      box-shadow: 3px 3px 0 #d0d0d0;
+      max-width: 400px;
+      width: 90%;
+      padding: 20px 30px;
+      border-radius: 6px;
+      color: #000080;
+      font-size: 18px;
+      line-height: 1.5;
+      position: relative;
+    }
+    #modal h2 {
+      margin-top: 0;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-align: center;
+      text-shadow: 1px 1px 0 #d0d0d0;
+    }
+    #modal button.close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #000080;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 3px;
+      font-size: 14px;
+    }
+    #modal button.close-btn:hover {
+      background: #ff0000;
+    }
+    .cart-link {
+      display: inline-block;
+      margin-top: 10px;
+      color: #0000ff;
+      text-decoration: underline;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .cart-link:hover {
+      color: #ff0000;
+    }
+    ul.cart-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-top: 15px;
+      color: #000080;
+      font-weight: normal;
+    }
+    button.clear-cart {
+      background: #000080;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 3px;
+      font-size: 16px;
+      margin-top: 15px;
+    }
+    button.clear-cart:hover {
+      background: #ff0000;
+    }
+  </style>
+</head>
+<body>
+  <div class="outer-container">
+    <div class="container">
+      <h1>해피니스 게시판</h1>
+
+      <div class="link-item">
+        ㅡ <a href="#" onclick="alert('즉시 구매 기능은 준비 중입니다!'); return false;">즉시 구매!</a> ㅡ
+      </div>
+
+      <div class="link-item">
+        <a href="#" onclick="openRecoveryModal(); return false;">회복! 상품 &lt;&lt;</a>
+      </div>
+
+      <div class="link-item">
+        <a href="#" onclick="openBandageModal(); return false;">붕대 &lt;&lt;</a>
+      </div>
+
+      <div class="link-item">
+        <a href="#" onclick="openCartModal(); return false;">장바구니 보기</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오버레이 모달 -->
+  <div id="overlay">
+    <div id="modal">
+      <button class="close-btn" onclick="closeOverlay()">닫기 ×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function openOverlay() {
+      document.getElementById('overlay').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeOverlay() {
+      document.getElementById('overlay').style.display = 'none';
+      document.body.style.overflow = '';
+      document.getElementById('modal-content').innerHTML = '';
+    }
+
+    function openRecoveryModal() {
+      openOverlay();
+      document.getElementById('modal-content').innerHTML = `
+        <h2>회복! 상품 상세 페이지</h2>
+        <p>가격 | 5 재화</p>
+        <p>상품 특징:</p>
+        <ul>
+          <li>빠른 회복 효과</li>
+          <li>믿을 수 있는 품질</li>
+          <li>특별 할인 중!</li>
+        </ul>
+        <a href="#" class="cart-link" onclick="addToCart('회복! 상품', 5); return false;">- 장바구니에 추가 -</a>
+      `;
+    }
+
+    function openBandageModal() {
+      openOverlay();
+      document.getElementById('modal-content').innerHTML = `
+        <h2>붕대 상세 페이지</h2>
+        <p>가격 | 3 재화</p>
+        <p>상품 특징:</p>
+        <ul>
+          <li>상처 치료에 필수</li>
+          <li>튼튼하고 편안함</li>
+          <li>합리적인 가격</li>
+        </ul>
+        <a href="#" class="cart-link" onclick="addToCart('붕대', 3); return false;">- 장바구니에 추가 -</a>
+      `;
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      alert(`"${name}"이(가) 장바구니에 추가되었습니다!`);
+    }
+
+    function openCartModal() {
+      openOverlay();
+      if (cart.length === 0) {
+        document.getElementById('modal-content').innerHTML = `
+          <h2>장바구니</h2>
+          <p>장바구니가 비어 있습니다.</p>
+        `;
+        return;
+      }
+      let listItems = cart.map((item, index) => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
+      document.getElementById('modal-content').innerHTML = `
+        <h2>장바구니</h2>
+        <ul class="cart-list">${listItems}</ul>
+        <button class="clear-cart" onclick="clearCart()">장바구니 비우기</button>
+      `;
+    }
+
+    function clearCart() {
+      if (confirm('장바구니를 비우시겠습니까?')) {
+        cart = [];
+        openCartModal();
+      }
+    }
+  </script>
+</body>
+</html>
