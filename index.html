@@ -19,7 +19,6 @@
       padding: 30px;
       box-shadow: 5px 5px 0 #002060;
       border-radius: 4px;
-      position: relative;
     }
     .container {
       background: #fffcdc;
@@ -50,6 +49,7 @@
       margin: 12px 0;
       font-size: 20px;
     }
+
     #overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -128,42 +128,43 @@
       background: #ff0000;
     }
 
-    /* 광고 배너 */
+    /* 하단 광고 바 */
     #ad-banner {
       display: none;
       position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
+      left: 0;
+      width: 100%;
       background: #ffffff;
-      border: 2px solid #000080;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-      padding: 15px 20px;
-      max-width: 90%;
-      width: 350px;
-      border-radius: 10px;
+      border-top: 2px solid #000080;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
+      padding: 10px 15px 12px 15px;
       z-index: 99999;
       font-style: italic;
       text-decoration: underline;
       color: #000080;
-      font-size: 15px;
+      font-size: 14px;
       line-height: 1.5;
+    }
+    #ad-banner p {
+      margin: 5px 0;
     }
     #ad-banner a {
       color: #0066ff;
-      text-decoration: none;
       font-weight: bold;
+      text-decoration: none;
     }
     #ad-banner a:hover {
       text-decoration: underline;
     }
     #ad-banner .close-ad {
       position: absolute;
-      top: 5px;
-      right: 10px;
+      top: 4px;
+      right: 12px;
       font-weight: bold;
       color: #000080;
       cursor: pointer;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -198,7 +199,7 @@
     </div>
   </div>
 
-  <!-- 외계인 광고 배너 -->
+  <!-- 하단 광고 바 -->
   <div id="ad-banner">
     <div class="close-ad" onclick="closeAd()">×</div>
     <p>1주년 감사 할인중! ~80%</p>
@@ -296,4 +297,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
