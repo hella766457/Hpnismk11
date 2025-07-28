@@ -212,7 +212,12 @@
       document.getElementById('modal-content').innerHTML = `
         <h2>(세일!) 나이프! 상세</h2>
         <p>가격 | 7 재화</p>
-        <p>표면은 날카롭고, 용도는 의심스러움.</p>
+        <p>상품 특징:</p>
+        <ul>
+          <li>정밀한 절삭이 가능한 소형 도구</li>
+          <li>튼튼하고 날카로운 금속 재질</li>
+          <li>다용도 사용 가능 (공예, 생존, 방어 등)</li>
+        </ul>
         <a href="#" class="cart-link" onclick="addToCart('나이프', 7); return false;">- 장바구니에 추가 -</a>
       `;
     }
@@ -231,7 +236,7 @@
         `;
         return;
       }
-      let listItems = cart.map((item, index) => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
+      let listItems = cart.map((item) => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
       document.getElementById('modal-content').innerHTML = `
         <h2>장바구니</h2>
         <ul class="cart-list">
