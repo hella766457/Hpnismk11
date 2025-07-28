@@ -161,7 +161,7 @@
       </div>
 
       <div class="link-item">
-        <a href="#" onclick="openRecoveryModal(); return false;">회복! 상품 &lt;&lt;</a>
+        <a href="#" onclick="openRecoveryModal(); return false;">회복! 붕대 &lt;&lt;</a>
       </div>
 
       <div class="link-item">
@@ -199,7 +199,7 @@
     function openRecoveryModal() {
       openOverlay();
       document.getElementById('modal-content').innerHTML = `
-        <h2>회복! 상품 상세 페이지</h2>
+        <h2>회복! 붕대 상세 페이지</h2>
         <p>가격 | 5 재화</p>
         <p>상품 특징:</p>
         <ul>
@@ -212,9 +212,9 @@
     }
 
     function addToCart() {
-      // 회복! 상품을 장바구니에 추가
+      // 붕대를 장바구니에 추가
       cart.push({
-        name: '회복! 상품',
+        name: '회복! 붕대',
         price: 5
       });
       alert('장바구니에 추가되었습니다!');
