@@ -127,21 +127,43 @@
     button.clear-cart:hover {
       background: #ff0000;
     }
-    /* 외계인 상점 광고 */
-    #alien-ad {
-      margin-top: 30px;
+
+    /* 광고 배너 */
+    #ad-banner {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border: 2px solid #000080;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+      padding: 15px 20px;
+      max-width: 90%;
+      width: 350px;
+      border-radius: 10px;
+      z-index: 99999;
       font-style: italic;
       text-decoration: underline;
-      text-align: left;
-      font-size: 16px;
+      color: #000080;
+      font-size: 15px;
+      line-height: 1.5;
     }
-    #alien-ad a {
+    #ad-banner a {
       color: #0066ff;
       text-decoration: none;
+      font-weight: bold;
     }
-    #alien-ad a:hover {
+    #ad-banner a:hover {
       text-decoration: underline;
-      color: #003399;
+    }
+    #ad-banner .close-ad {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-weight: bold;
+      color: #000080;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -168,12 +190,21 @@
     </div>
   </div>
 
-  <!-- 오버레이 모달 -->
+  <!-- 모달 -->
   <div id="overlay">
     <div id="modal">
       <button class="close-btn" onclick="closeOverlay()">닫기 ×</button>
       <div id="modal-content"></div>
     </div>
+  </div>
+
+  <!-- 외계인 광고 배너 -->
+  <div id="ad-banner">
+    <div class="close-ad" onclick="closeAd()">×</div>
+    <p>1주년 감사 할인중! ~80%</p>
+    <p>직장이 지루한가요? <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a></p>
+    <p>더 강해지고 싶나요? <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a></p>
+    <p>멋진 물건을 가지고 싶나요? <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a></p>
   </div>
 
   <script>
@@ -192,7 +223,7 @@
 
     function openRecoveryModal() {
       openOverlay();
-      let content = `
+      document.getElementById('modal-content').innerHTML = `
         <h2>회복! 상품 상세 페이지</h2>
         <p>가격 | 5 재화</p>
         <p>상품 특징:</p>
@@ -203,15 +234,12 @@
         </ul>
         <a href="#" class="cart-link" onclick="addToCart('회복! 상품', 5); return false;">- 장바구니에 추가 -</a>
       `;
-      if (Math.random() < 0.5) {
-        content += alienAd();
-      }
-      document.getElementById('modal-content').innerHTML = content;
+      maybeShowAd();
     }
 
     function openKnifeModal() {
       openOverlay();
-      let content = `
+      document.getElementById('modal-content').innerHTML = `
         <h2>나이프 상세 페이지</h2>
         <p>가격 | 7 재화</p>
         <p>상품 특징:</p>
@@ -222,27 +250,7 @@
         </ul>
         <a href="#" class="cart-link" onclick="addToCart('나이프', 7); return false;">- 장바구니에 추가 -</a>
       `;
-      if (Math.random() < 0.5) {
-        content += alienAd();
-      }
-      document.getElementById('modal-content').innerHTML = content;
-    }
-
-    function alienAd() {
-      return `
-        <div id="alien-ad">
-          <p>1주년 감사 할인중! ~80%</p>
-          <p>직장이 지루한가요? 
-            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
-          </p>
-          <p>더 강해지고 싶나요? 
-            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
-          </p>
-          <p>멋진 물건을 가지고 싶나요? 
-            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
-          </p>
-        </div>
-      `;
+      maybeShowAd();
     }
 
     function openCartModal() {
@@ -252,16 +260,15 @@
           <h2>장바구니</h2>
           <p>장바구니가 비어 있습니다.</p>
         `;
-        return;
+      } else {
+        const listItems = cart.map(item => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
+        document.getElementById('modal-content').innerHTML = `
+          <h2>장바구니</h2>
+          <ul class="cart-list">${listItems}</ul>
+          <button class="clear-cart" onclick="clearCart()">장바구니 비우기</button>
+        `;
       }
-      let listItems = cart.map((item) => `<li>${item.name} | 가격: ${item.price} 재화</li>`).join('');
-      document.getElementById('modal-content').innerHTML = `
-        <h2>장바구니</h2>
-        <ul class="cart-list">
-          ${listItems}
-        </ul>
-        <button class="clear-cart" onclick="clearCart()">장바구니 비우기</button>
-      `;
+      maybeShowAd();
     }
 
     function addToCart(name, price) {
@@ -274,6 +281,18 @@
         cart = [];
         openCartModal();
       }
+    }
+
+    function maybeShowAd() {
+      if (Math.random() < 0.5) {
+        document.getElementById('ad-banner').style.display = 'block';
+      } else {
+        document.getElementById('ad-banner').style.display = 'none';
+      }
+    }
+
+    function closeAd() {
+      document.getElementById('ad-banner').style.display = 'none';
     }
   </script>
 </body>
