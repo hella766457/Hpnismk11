@@ -19,6 +19,7 @@
       padding: 30px;
       box-shadow: 5px 5px 0 #002060;
       border-radius: 4px;
+      position: relative;
     }
     .container {
       background: #fffcdc;
@@ -126,29 +127,25 @@
     button.clear-cart:hover {
       background: #ff0000;
     }
-    #profile-icon {
-      position: fixed;
-      top: 15px;
-      right: 15px;
-      width: 40px;
-      height: 40px;
-      background: #0077ff;
-      color: white;
-      font-weight: bold;
-      font-size: 28px;
-      line-height: 40px;
-      text-align: center;
-      border-radius: 50%;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 0 5px rgba(0,0,0,0.3);
-      z-index: 10000;
+    /* 외계인 상점 광고 */
+    #alien-ad {
+      margin-top: 30px;
+      font-style: italic;
+      text-decoration: underline;
+      text-align: left;
+      font-size: 16px;
+    }
+    #alien-ad a {
+      color: #0066ff;
+      text-decoration: none;
+    }
+    #alien-ad a:hover {
+      text-decoration: underline;
+      color: #003399;
     }
   </style>
 </head>
 <body>
-  <div id="profile-icon" title="계정" onclick="openProfileModal()">?</div>
-
   <div class="outer-container">
     <div class="container">
       <h1>해피니스 게시판</h1>
@@ -158,11 +155,11 @@
       </div>
 
       <div class="link-item">
-        <a href="#" onclick="openRecoveryModal(); return false;">회복! 붕대 &lt;&lt;</a>
+        <a href="#" onclick="openRecoveryModal(); return false;">회복! 상품 &lt;&lt;</a>
       </div>
 
       <div class="link-item">
-        <a href="#" onclick="openKnifeModal(); return false;">(세일!) 나이프! &lt;&lt;</a>
+        <a href="#" onclick="openKnifeModal(); return false;">(세일!) 나이프 &lt;&lt;</a>
       </div>
 
       <div class="link-item">
@@ -171,6 +168,7 @@
     </div>
   </div>
 
+  <!-- 오버레이 모달 -->
   <div id="overlay">
     <div id="modal">
       <button class="close-btn" onclick="closeOverlay()">닫기 ×</button>
@@ -194,8 +192,8 @@
 
     function openRecoveryModal() {
       openOverlay();
-      document.getElementById('modal-content').innerHTML = `
-        <h2>회복! 붕대 상세 페이지</h2>
+      let content = `
+        <h2>회복! 상품 상세 페이지</h2>
         <p>가격 | 5 재화</p>
         <p>상품 특징:</p>
         <ul>
@@ -203,28 +201,48 @@
           <li>믿을 수 있는 품질</li>
           <li>특별 할인 중!</li>
         </ul>
-        <a href="#" class="cart-link" onclick="addToCart('회복! 붕대', 5); return false;">- 장바구니에 추가 -</a>
+        <a href="#" class="cart-link" onclick="addToCart('회복! 상품', 5); return false;">- 장바구니에 추가 -</a>
       `;
+      if (Math.random() < 0.5) {
+        content += alienAd();
+      }
+      document.getElementById('modal-content').innerHTML = content;
     }
 
     function openKnifeModal() {
       openOverlay();
-      document.getElementById('modal-content').innerHTML = `
-        <h2>(세일!) 나이프! 상세</h2>
+      let content = `
+        <h2>나이프 상세 페이지</h2>
         <p>가격 | 7 재화</p>
         <p>상품 특징:</p>
         <ul>
-          <li>정밀한 절삭이 가능한 소형 도구</li>
-          <li>튼튼하고 날카로운 금속 재질</li>
-          <li>다용도 사용 가능 (공예, 생존, 방어 등)</li>
+          <li>날카로운 절삭력</li>
+          <li>희귀한 재료로 제작</li>
+          <li>은은한 광택</li>
         </ul>
         <a href="#" class="cart-link" onclick="addToCart('나이프', 7); return false;">- 장바구니에 추가 -</a>
       `;
+      if (Math.random() < 0.5) {
+        content += alienAd();
+      }
+      document.getElementById('modal-content').innerHTML = content;
     }
 
-    function addToCart(name, price) {
-      cart.push({ name, price });
-      alert('장바구니에 추가되었습니다!');
+    function alienAd() {
+      return `
+        <div id="alien-ad">
+          <p>1주년 감사 할인중! ~80%</p>
+          <p>직장이 지루한가요? 
+            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
+          </p>
+          <p>더 강해지고 싶나요? 
+            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
+          </p>
+          <p>멋진 물건을 가지고 싶나요? 
+            <a href="https://hella766457.github.io/yigeinmaket/" target="_blank">>> 클릭</a>
+          </p>
+        </div>
+      `;
     }
 
     function openCartModal() {
@@ -246,21 +264,16 @@
       `;
     }
 
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      alert('장바구니에 추가되었습니다!');
+    }
+
     function clearCart() {
       if(confirm('장바구니를 비우시겠습니까?')) {
         cart = [];
         openCartModal();
       }
-    }
-
-    function openProfileModal() {
-      openOverlay();
-      document.getElementById('modal-content').innerHTML = `
-        <h2>계정 메뉴</h2>
-        <a href="#" style="color:#0000ff; text-decoration: underline; font-weight: bold;" onclick="alert('잔액: 120 재화'); closeOverlay(); return false;">
-          ㅡ 카드 잔액 확인 ㅡ
-        </a>
-      `;
     }
   </script>
 </body>
